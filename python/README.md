@@ -41,3 +41,15 @@ eson_data = eson.encode(user)
 }
 """
 ```
+
+#### Decoding
+```python
+import eson
+
+# A timezone aware date object
+eson_data = '{"EsonDatetime~eatime": {"timestamp": 1588822240000400, "timezone": {"offset": 10800, "name": "EAT"}}}'
+data = eson.decode(eson_data)
+
+print(data.get("eatime"))
+# Expected output '2020-05-07 06:30:40.000400+03:00'
+```
