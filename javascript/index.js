@@ -1,3 +1,21 @@
+const { EsonDate, EsonDatetime } = require("./extensions/datetime")
+
+const global_object = () => {
+    try {
+        return global
+    } catch (err) {}
+
+    try {
+        return window
+    } catch (err) {}
+
+    return self
+}
+
+const get_config = () => {
+    return global_object().__eson_config__ || {}
+}
+
 const encode = (value, pretty) => {
     return JSON.stringify(value)
 }
@@ -21,27 +39,15 @@ const add_extension = extension => {
             "Extension must provide a 'name' to identify the extension data type"
         )
     }
+    console.log(extension)
     const config = get_config()
     config[extension.name] = extension
     global_object().__eson_config__ = config
 }
+
+add_extension(EsonDate)
+add_extension(EsonDatetime)
 exports.add_extension = add_extension
-
-const global_object = () => {
-    try {
-        return global
-    } catch (err) {}
-
-    try {
-        return window
-    } catch (err) {}
-
-    return self
-}
-
-const get_config = () => {
-    global_object().__eson_config__ || {}
-}
 
 module.exports = {
     encode,
