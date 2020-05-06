@@ -29,14 +29,14 @@ user = {
 }
 
 # Encoding the data
-eson_data = eson.encode(user)
+eson_data = eson.encode(user, pretty=True)
 
 # Sample output
 """
 {
     "name": "Jane Doe",
     "EsonDate~date_of_birth": {"year": 2020, "month": 04, "day": 10},
-    "EsonDatetime~registered": {}
+    "EsonDatetime~registered": {...}
 }
 """
 ```
