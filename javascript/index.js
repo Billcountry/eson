@@ -1,47 +1,50 @@
-export const encode = value => {
-
+const encode = (value, pretty) => {
+    return JSON.stringify(value)
 }
+exports.encode = encode
 
-export const decode = value => {
+const decode = value => {}
+exports.decode = decode
 
-}
-
-export const add_extension = extension => {
-    if(typeof extension.should_encode !== "function"){
+const add_extension = extension => {
+    if (typeof extension.should_encode !== "function") {
         throw new Error("Extension must provide a function, `should_encode`")
     }
-    if(typeof extension.encode !== "function"){
+    if (typeof extension.encode !== "function") {
         throw new Error("Extension must provide a function, `encode`")
     }
-    if(typeof extension.decode !== "function"){
+    if (typeof extension.decode !== "function") {
         throw new Error("Extension must provide a function, `decode`")
     }
-    if(!extension.name || typeof extension.name !== "string"){
-        throw new Error("Extension must provide a 'name' to identify the extension data type")
+    if (!extension.name || typeof extension.name !== "string") {
+        throw new Error(
+            "Extension must provide a 'name' to identify the extension data type"
+        )
     }
     const config = get_config()
     config[extension.name] = extension
     global_object().__eson_config__ = config
 }
+exports.add_extension = add_extension
 
 const global_object = () => {
-    try{
+    try {
         return global
-    }catch(err){}
+    } catch (err) {}
 
-    try{
+    try {
         return window
-    }catch(err){}
+    } catch (err) {}
 
     return self
 }
 
-const get_config = ()=>{
+const get_config = () => {
     global_object().__eson_config__ || {}
 }
 
-const eson = {
-    encode, decode, add_extension
+module.exports = {
+    encode,
+    decode,
+    add_extension,
 }
-
-export default eson
