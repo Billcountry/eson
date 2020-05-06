@@ -27,5 +27,5 @@ class EsonDatetime(EsonExtension):
             offset = tz.get("offset")
             name = tz.get("name")
             tzinfo = timezone(timedelta(seconds=offset), name)
-            dt.replace(tzinfo=tzinfo)
+            dt = dt.replace(tzinfo=tzinfo)
         return dt

@@ -1,13 +1,5 @@
-# ESON
-
-This library allows you to implement extended JSON objects allowing you to 
-share data between services, apps and languages as objects. The library comes with
-built in extensions for date and datetime. You can write your own extensions to manage 
-custom data.
-
-This became a need for me when sharing data between two http services and being
-forced to remember to do convert a timestamp back to datetime on each function handling
-the data
+# ESON Python
+This is the python version of Extended JSON. See other languages [here](https://github.com/Billcountry/eson)
 
 ## Getting Started
 
