@@ -55,6 +55,26 @@ class TestCase(unittest.TestCase):
         dt = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400)
         eson_data = '{"EsonDatetime~date_of_birth": {"timestamp": 1588822240000400}, "horoscope": "taurus"}'
         self.assertEqual(dict(date_of_birth=dt, horoscope="taurus"), eson.decode(eson_data))
+        # Decode a timezone aware date
+        eson_data = '{"EsonDatetime~eatime": {"timestamp": 1588822240000400, "timezone": {"offset": 10800, "name": "Africa/Nairobi"}}}'
+        tz = timezone(timedelta(hours=3), "Africa/Nairobi")
+        dtz = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400, tzinfo=tz)
+        data = eson.decode(eson_data)
+        self.assertEqual(dtz, data.get("eatime"))
+    
+    def test_combined_list_data_encode(self):
+        d = date(year=2020, month=4, day=20)
+        dt = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400)
+        data = dict(name="Jane Doe", log=["Some string", 0, dt, False, d, None])
+        expected_eson = '{"name": "Jane Doe", "log": {"__eson-list__": {"0": "Some string", "1": 0, "EsonDatetime~2": {"timestamp": 1588822240000400}, "3": false, "EsonDate~4": {"year": 2020, "month": 4, "day": 20}, "5": null}}}'
+        self.assertEqual(expected_eson, eson.encode(data))
+
+    def test_combined_list_data_decode(self):
+        eson_string = '{"name": "Jane Doe", "log": {"__eson-list__": {"0": "Some string", "1": 0, "EsonDatetime~2": {"timestamp": 1588822240000400}, "3": false, "EsonDate~4": {"year": 2020, "month": 4, "day": 20}, "5": null}}}'
+        d = date(year=2020, month=4, day=20)
+        dt = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400)
+        expected_data = dict(name="Jane Doe", log=["Some string", 0, dt, False, d, None])
+        self.assertEqual(expected_data, eson.decode(eson_string))
 
 
 if __name__ == '__main__':
