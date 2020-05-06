@@ -8,5 +8,9 @@
   "license": "MIT",
   "devDependencies": {
     "mocha": "^7.1.2"
-  }
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "licenses": ["MIT"]
 }
