@@ -1,10 +1,17 @@
-# ESON Python
-This is the python version of Extended JSON. See other languages [here](https://github.com/Billcountry/eson)
+# Extended JSON(ESON)
+JSON is great for sharing data in a human readable format but sometimes it lacks in object types support.
+ESON does not re-invent the wheel, it just provides a base for you to implement extended JSON objects allowing you to
+share data between services, apps and languages as objects.
+
+ESON comes with built in extensions for date and datetime. You can write your own extensions to manage
+custom data.
+
+This is the python version of ESON. See other languages [here](https://github.com/Billcountry/eson#languages)
 
 ## Getting Started
 
 ### Install
-Run `pip install eson-py`
+Run `pip install eson`
 
 ### Usage
 Below is a summary of various operations using eson. 
