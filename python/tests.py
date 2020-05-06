@@ -76,6 +76,14 @@ class TestCase(unittest.TestCase):
         expected_data = dict(name="Jane Doe", log=["Some string", 0, dt, False, d, None])
         self.assertEqual(expected_data, eson.decode(eson_string))
 
+    def test_pretty_encoding(self):
+        data = dict(name="Jane Doe", registered=date(year=2020, month=5, day=6))
+        eson_data = {
+            "name": "Jane Doe",
+            "EsonDate~registered": dict(year=2020, month=5, day=6)
+        }
+        self.assertEqual(eson.encode(data, pretty=True), json.dumps(eson_data, indent=4))
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2, buffer=True)

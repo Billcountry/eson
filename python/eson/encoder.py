@@ -2,9 +2,12 @@ import json
 import builtins
 
 
-def encode(data):
+def encode(data, pretty=False):
     """Encode to an ESON string"""
-    return json.dumps(__encode_types(data))
+    eson_data = __encode_types(data)
+    if pretty:
+        return json.dumps(eson_data, indent=4)
+    return json.dumps(eson_data)
 
 
 def __encode_types(data):
