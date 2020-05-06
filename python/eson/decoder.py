@@ -20,6 +20,8 @@ def __decode_types(data):
         data = data['__eson-list__']
     for encoded_key, encoded_value in data.items():
         key, value = __decode_type(encoded_key, encoded_value)
+        if isinstance(value, dict):
+            value = __decode_types(value)
         if is_list:
             _data.append(value)
         else:
