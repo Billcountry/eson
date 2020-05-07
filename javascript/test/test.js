@@ -39,7 +39,7 @@ describe("Test List Operations", () => {
 
     it("Should encode an array to an eson list object", () => {
         const num_list = [1, 2, 3]
-        const expected_eson = '{"__eson-list__": {"0": 1, "1": 2, "2": 3}}'
+        const expected_eson = '{"__eson-list__":{"0":1,"1":2,"2":3}}'
         assert.equal(eson.encode(num_list), expected_eson)
     })
 
@@ -68,7 +68,7 @@ describe("Test Datetime Operations", () => {
             username: "bear",
         }
         const expected_eson =
-            '{"EsonDatetime~registered": {"timestamp": 1588822240400000}, "username": "bear"}'
+            '{"EsonDatetime~registered":{"timestamp":1588822240400000},"username":"bear"}'
         assert.equal(eson.encode(data), expected_eson)
     })
 
@@ -91,7 +91,7 @@ describe("Test Combined List Data", () => {
             log: ["Some string", 0, dt, false, null],
         }
         const expected_eson =
-            '{"name": "Jane Doe", "log": {"__eson-list__": {"0": "Some string", "1": 0, "EsonDatetime~2": {"timestamp": 1588822240400000}, "3": false, "4": null}}}'
+            '{"name":"Jane Doe","log":{"__eson-list__":{"0":"Some string","1":0,"EsonDatetime~2":{"timestamp":1588822240400000},"3":false,"4":null}}}'
         assert.equal(eson.encode(data), expected_eson)
     })
 
