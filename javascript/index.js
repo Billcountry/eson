@@ -1,5 +1,6 @@
 const { EsonDate, EsonDatetime } = require("./extensions/datetime")
 const { __encode } = require("./encoder")
+const { __decode } = require("./decoder")
 
 const global_object = () => {
     try {
@@ -17,12 +18,10 @@ const get_config = () => {
     return global_object().__eson_config__ || {}
 }
 
-const encode = (value, pretty) => {
-    return __encode(get_config(), value, pretty)
-}
+const encode = (value, pretty) => __encode(get_config(), value, pretty)
 exports.encode = encode
 
-const decode = value => {}
+const decode = value => __decode(get_config(), value)
 exports.decode = decode
 
 const add_extension = extension => {
