@@ -10,23 +10,26 @@ def decode(encoded_data):
 
 
 def __decode_types(data):
-    if not isinstance(data, dict):
-        return data
-    # Decode a list correctly back to a list
-    is_list = '__eson-list__' in data
-    _data = dict()
-    if is_list:
-        _data = list()
-        data = data['__eson-list__']
-    for encoded_key, encoded_value in data.items():
-        key, value = __decode_type(encoded_key, encoded_value)
-        if isinstance(value, dict):
-            value = __decode_types(value)
-        if is_list:
-            _data.append(value)
-        else:
+    if isinstance(data, dict):
+        _data = dict()
+        for encoded_key, encoded_value in data.items():
+            key, value = __decode_type(encoded_key, encoded_value)
+            if isinstance(value, (dict, list)):
+                value = __decode_types(value)
+            if not key:
+                return value
             _data[key] = value
-    return _data
+        return _data            
+
+    if isinstance(data, list):
+        _data = list()
+        for value in data:
+            if isinstance(value, (dict, list)):
+                value = __decode_types(value)
+            _data.append(value)
+        return _data
+    
+    return data
 
 
 def __decode_type(encoded_key, encoded_value):

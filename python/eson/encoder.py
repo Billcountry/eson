@@ -11,8 +11,8 @@ def encode(data, pretty=False):
 
 
 def __encode_types(data):
-    _data = dict()
     if isinstance(data, dict):
+        _data = dict()
         for key, value in data.items():
             encoded_key, encoded_value = __encode_type(key, value)
             if isinstance(encoded_value, (dict, list)):
@@ -20,8 +20,20 @@ def __encode_types(data):
             _data[encoded_key] = encoded_value
 
     if isinstance(data, list):
-        _data['__eson-list__'] = __encode_types(dict(enumerate(data)))
-    return _data
+        _data = list()
+        for value in data:
+            encoded_key, encoded_value = __encode_type("", value)
+            if isinstance(encoded_value, (dict, list)):
+                encoded_value = __encode_types(encoded_value)
+            if encoded_key:
+                _data.append({encoded_key: encoded_value})
+            else:
+                _data.append(encoded_value)
+        return _data
+    encoded_key, encoded_value = __encode_type("", data)
+    if encoded_key:
+        return {encoded_key: encoded_value}
+    return encoded_value
 
 
 def __encode_type(key, value):
