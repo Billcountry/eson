@@ -11,7 +11,7 @@ describe("Test Normal JSON Operations", () => {
     })
 
     it("Should be able to decode JSON meant for built in JSON", () => {
-        const json_data = '{"name": "Jane Doe"}'
+        const json_data = '{"name":"Jane Doe"}'
         assert.equal(eson.decode(json_data), JSON.parse(json_data))
     })
 
@@ -28,26 +28,6 @@ describe("Test Normal JSON Operations", () => {
             eson.encode(data, true),
             JSON.stringify(eson_data, null, 4)
         )
-    })
-})
-
-describe("Test List Operations", () => {
-    it("Should support backward array compartibility", () => {
-        const some_json_array = "[1, 2, 3]"
-        assert.equal(eson.decode(some_json_array), [1, 2, 3])
-    })
-
-    it("Should encode an array to an eson list object", () => {
-        const num_list = [1, 2, 3]
-        const expected_eson = '{"__eson-list__":{"0":1,"1":2,"2":3}}'
-        assert.equal(eson.encode(num_list), expected_eson)
-    })
-
-    it("Should decode an eson list object to a normal JS array", () => {
-        const eson_data =
-            '{"__eson-list__": {"0": 1, "1": 2, "2": 3, "3": "Some String"}}'
-        const expected_array = [1, 2, 3, "Some String"]
-        assert.equal(eson.decode(eson_data), expected_array)
     })
 })
 
@@ -91,7 +71,7 @@ describe("Test Combined List Data", () => {
             log: ["Some string", 0, dt, false, null],
         }
         const expected_eson =
-            '{"name":"Jane Doe","log":{"__eson-list__":{"0":"Some string","1":0,"EsonDatetime~2":{"timestamp":1588822240400000},"3":false,"4":null}}}'
+            '{"name":"Jane Doe","log":["Some string",0,{"EsonDatetime~":{"timestamp":1588822240400000}},false,null]}'
         assert.equal(eson.encode(data), expected_eson)
     })
 
