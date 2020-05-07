@@ -18,7 +18,7 @@ describe("Test Normal JSON Operations", () => {
     it("Should return pretty JSON equal to built in JSON", () => {
         const data = {
             name: "Jane Doe",
-            registered: new Date(2020, 5, 7, 6, 30, 40, 400),
+            registered: new Date(2020, 4, 7, 6, 30, 40, 400),
         }
         eson_data = {
             name: "Jane Doe",
@@ -85,7 +85,7 @@ describe("Test Datetime Operations", () => {
 
 describe("Test Combined List Data", () => {
     it("Should encode data in lists and dictionaries correctly", () => {
-        const dt = new Date(2020, 5, 7, 6, 30, 40, 400)
+        const dt = new Date(2020, 4, 7, 6, 30, 40, 400)
         const data = {
             name: "Jane Doe",
             log: ["Some string", 0, dt, false, null],
@@ -98,7 +98,7 @@ describe("Test Combined List Data", () => {
     it("Shoud decode data in lists and dictionaries correctly", () => {
         const eson_string =
             '{"name": "Jane Doe", "log": {"__eson-list__": {"0": "Some string", "1": 0, "EsonDatetime~2": {"timestamp": 1588822240400000}, "3": false, "EsonDate~4": {"year": 2020, "month": 4, "day": 20}, "5": null}}}'
-        const datetime = new Date(2020, 5, 7, 6, 30, 40, 400)
+        const datetime = new Date(2020, 4, 7, 6, 30, 40, 400)
         const date = new Date(2020, 3, 20)
         const expected_object = {
             name: "Jane Doe",
