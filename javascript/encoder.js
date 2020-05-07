@@ -5,17 +5,45 @@ exports.__encode = (config, value, pretty) => {
 }
 
 const eson_encode = (config, value) => {
-    console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++")
-    console.log(value)
-    console.log("----------------------------------------------------")
     if (Array.isArray(value)) {
-        const eson_list = {}
-        value.forEach((element, index) => {
-            eson_list[`${index}`] = element
+        const eson_list = []
+        return value.map(element => {
+            let [encoded_key, encoded_value] = eson_encode_type(
+                config,
+                "",
+                element
+            )
+            if (
+                encoded_value &&
+                (Array.isArray(encoded_value) ||
+                    encoded_value.constructor == Object)
+            ) {
+                encoded_value = eson_encode(config, encoded_value)
+            }
+            if (encoded_key) {
+                const encoded_object = {}
+                encoded_object[encoded_key] = encoded_value
+                return encoded_object
+            }
+            return encoded_value
         })
-        return {
-            "__eson-list__": eson_encode(config, eson_list),
+    }
+
+    if (value.constructor !== Object) {
+        let [encoded_key, encoded_value] = eson_encode_type(config, "", value)
+        if (
+            encoded_value &&
+            (Array.isArray(encoded_value) ||
+                encoded_value.constructor == Object)
+        ) {
+            encoded_value = eson_encode(config, encoded_value)
         }
+        if (encoded_key) {
+            const encoded_object = {}
+            encoded_object[encoded_key] = encoded_value
+            return encoded_object
+        }
+        return encoded_value
     }
 
     const eson_data = {}
