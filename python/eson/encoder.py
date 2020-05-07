@@ -18,6 +18,7 @@ def __encode_types(data):
             if isinstance(encoded_value, (dict, list)):
                 encoded_value = __encode_types(encoded_value)
             _data[encoded_key] = encoded_value
+        return _data
 
     if isinstance(data, list):
         _data = list()
