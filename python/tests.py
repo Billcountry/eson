@@ -8,33 +8,41 @@ class TestCase(unittest.TestCase):
     def test_simple_encode(self):
         normal_dict = dict(name="Jane Doe", sibling="Jane Doe")
         self.assertEqual(json.dumps(normal_dict), eson.encode(normal_dict))
+        self.assertEqual(eson.encode(None), 'null')
 
     def test_simple_decode(self):
         json_data = '{"name": "Jane Doe"}'
         self.assertEqual(eson.decode(json_data), dict(name="Jane Doe"))
-
-    def test_list_backward_compatibility(self):
-        some_json_list = "[1, 2, 3]"
-        self.assertEqual(eson.decode(some_json_list), [1, 2, 3])
+        self.assertIsNone(eson.decode('null'))
 
     def test_list_encode(self):
         a_list = [1, 2, 3]
-        expected_eson = '{"__eson-list__": {"0": 1, "1": 2, "2": 3}}'
+        expected_eson = '[1, 2, 3]'
         self.assertEqual(eson.encode(a_list), expected_eson)
 
     def test_list_decode(self):
-        eson_data = '{"__eson-list__": {"0": 1, "1": 2, "2": 3, "3": "Some String"}}'
+        eson_data = '[1, 2, 3, "Some String"]'
         expected_list = [1, 2, 3, "Some String"]
         self.assertEqual(eson.decode(eson_data), expected_list)
 
     def test_date_encode(self):
-        data = dict(dob=date(year=2020, month=4, day=20), name="Corona")
+        dob = date(year=2020, month=4, day=20)
+        # Stand alone date
+        self.assertEqual(eson.encode(dob), '{"EsonDate~": {"year": 2020, "month": 4, "day": 20}}')
+
+        # Date in a dict
+        data = dict(dob=dob, name="Corona")
         expected_eson = '{"EsonDate~dob": {"year": 2020, "month": 4, "day": 20}, "name": "Corona"}'
         self.assertEqual(eson.encode(data), expected_eson)
 
     def test_date_decode(self):
+        # Stand alone date
+        expected_date = date(year=1969, month=4, day=20)
+        eson_date = '{"EsonDate~": {"year": 1969, "month": 4, "day": 20}}'
+        self.assertEqual(eson.decode(eson_date), expected_date)
+        # Dae in a dict
         eson_data = '{"EsonDate~dob": {"year": 1969, "month": 4, "day": 20}, "height": 30}'
-        expected_data = dict(dob=date(year=1969, month=4, day=20), height=30)
+        expected_data = dict(dob=expected_date, height=30)
         self.assertEqual(eson.decode(eson_data), expected_data)
 
     def test_datetime_encode(self):
@@ -66,11 +74,11 @@ class TestCase(unittest.TestCase):
         d = date(year=2020, month=4, day=20)
         dt = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400)
         data = dict(name="Jane Doe", log=["Some string", 0, dt, False, d, None])
-        expected_eson = '{"name": "Jane Doe", "log": {"__eson-list__": {"0": "Some string", "1": 0, "EsonDatetime~2": {"timestamp": 1588822240000400}, "3": false, "EsonDate~4": {"year": 2020, "month": 4, "day": 20}, "5": null}}}'
+        expected_eson = '{"name": "Jane Doe", "log": ["Some string", 0, {"EsonDatetime~": {"timestamp": 1588822240000400}}, false, {"EsonDate~": {"year": 2020, "month": 4, "day": 20}}, null]}'
         self.assertEqual(expected_eson, eson.encode(data))
 
     def test_combined_list_data_decode(self):
-        eson_string = '{"name": "Jane Doe", "log": {"__eson-list__": {"0": "Some string", "1": 0, "EsonDatetime~2": {"timestamp": 1588822240000400}, "3": false, "EsonDate~4": {"year": 2020, "month": 4, "day": 20}, "5": null}}}'
+        eson_string = '{"name": "Jane Doe", "log": ["Some string", 0, {"EsonDatetime~": {"timestamp": 1588822240000400}}, false, {"EsonDate~": {"year": 2020, "month": 4, "day": 20}}, null]}'
         d = date(year=2020, month=4, day=20)
         dt = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400)
         expected_data = dict(name="Jane Doe", log=["Some string", 0, dt, False, d, None])
