@@ -24,14 +24,14 @@ const decode_eson_data = (config, data) => {
     }
 
     if (Array.isArray(data)) {
-        return data.map(encoded_value => {
+        return data.map(value => {
             if (
                 value &&
                 (Array.isArray(value) || value.constructor == Object)
             ) {
-                encoded_value = decode_eson_data(config, encoded_value)
+                value = decode_eson_data(config, value)
             }
-            return encoded_value
+            return value
         })
     }
     return data
@@ -39,7 +39,7 @@ const decode_eson_data = (config, data) => {
 
 const decode_value = (config, encoded_key, encoded_value) => {
     const key_parts = encoded_key.split("~")
-    if (key_parts.length) return [encoded_key, encoded_value]
+    if (key_parts.length !== 2) return [encoded_key, encoded_value]
     const [name, key] = key_parts
     const extension = config[name]
     if (extension) return [key, extension.decode(encoded_value)]
