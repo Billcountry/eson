@@ -3,6 +3,10 @@ const eson = require("../index")
 
 describe("Test Normal JSON Operations", () => {
     it("Should encode the same way as Javascript built in JSON", () => {
+        assert.equal(eson.encode(null), JSON.stringify(null))
+        assert.equal(eson.encode("test"), JSON.stringify("test"))
+        assert.equal(eson.encode(10), JSON.stringify(10))
+        assert.equal(eson.encode(false), JSON.stringify(false))
         const object = {
             name: "Jane Doe",
             sibling: "John Doe",
