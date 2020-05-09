@@ -19,6 +19,7 @@ custom data.
 
 
 ## Languages
-- **[Python](/python)** build: passing, coverage: 100%
+- **[Python](https://github.com/Billcountry/eson/python)**
+- **[Javascript](https://github.com/Billcountry/eson/javascript)**
 
 
