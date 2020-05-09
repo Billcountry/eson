@@ -19,7 +19,7 @@ custom data.
 
 
 ## Languages
-- **[Python](https://github.com/Billcountry/eson/python)**
-- **[Javascript](https://github.com/Billcountry/eson/javascript)**
+- **[Python](/python)**
+- **[Javascript](/javascript)**
 
 
