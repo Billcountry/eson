@@ -25,16 +25,16 @@ Below is a summary of various operations using eson.
 
 #### Encoding:
 ```js
-import eson from "eson-js"
+const eson = require("eson-js")
 
 const user = {
     name: "Jane Doe",
-    date_of_birth: date.today(),
-    registered: datetime.now()
+    date_of_birth: new Date(2020, 3, 20),
+    registered: new Date()
 }
 
 // Encoding the data (True argument to make it pretty. Not required)
-const eson_data = eson.encode(user, True)
+const eson_data = eson.encode(user, true)
 console.log(eson_data)
 
 // Sample output
@@ -49,7 +49,7 @@ console.log(eson_data)
 
 #### Decoding
 ```js
-import eson from "eson-js"
+const eson = require("eson-js")
 
 const eson_data = '{"EsonDatetime~datetime": {"timestamp": 1588822240000400}, "array": ["Some string",0,{"EsonDatetime~":{"timestamp":1588822240400000}},false,null]}'
 const data = eson.decode(eson_data)
@@ -62,7 +62,7 @@ You can extend ESON to achieve various purposes, e.g loading a database entity w
 
 An extension should have the keys `should_encode`, `encode`, `decode` and `name`. Below is the sample code used to extend Datetime objects in ESON
 ```js
-import eson from "eson-js"
+const eson = require("eson-js")
 
 exports.EsonDatetime = {
     name: "EsonDatetime",
@@ -79,7 +79,7 @@ exports.EsonDatetime = {
 
 Once an extension is created, at the entry of your application add the extension to ESON
 ```js
-import eson from "eson-js"
+const eson = require("eson-js")
 
 eson.add_extension(EsonDatetime)
 ```
