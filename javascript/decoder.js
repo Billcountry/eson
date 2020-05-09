@@ -15,7 +15,7 @@ const decode_eson_data = (config, data) => {
                 value &&
                 (Array.isArray(value) || value.constructor == Object)
             ) {
-                encoded_value = decode_eson_data(config, encoded_value)
+                value = decode_eson_data(config, value)
             }
             if (!key) return value
             _data[key] = value
