@@ -4,7 +4,7 @@ exports.__decode = (config, value) => {
 }
 
 const decode_eson_data = (config, data) => {
-    if (data.constructor === Object) {
+    if (data && data.constructor === Object) {
         const _data = {}
         let encoded_key
         let encoded_value
