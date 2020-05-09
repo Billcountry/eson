@@ -15,7 +15,7 @@ Run `pip install eson`
 
 ### Usage
 Below is a summary of various operations using eson. 
-[Click here](https://repl.it/@Billcountry/eson-python) to open a live test environment.
+<a href="https://repl.it/@Billcountry/eson-python" target="_blank">Click here</a> to open a live test environment.
 
 #### Encoding:
 ```python
