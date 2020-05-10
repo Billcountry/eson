@@ -1,0 +1,30 @@
+name: Python Tests
+
+on: [pull_request]
+
+jobs:
+  tests.js:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ '10', '12' ]
+
+    name: Test On node version ${{ matrix.node }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+    - name: Install dependencies
+      run: npm install
+    - name: Run Tests
+      run: |
+        cd javascript
+        npm run test
+
+    - name: Report coverage
+      run: |
+        cd javascript
+        nyc merge .nyc_output/ coverage.json
+        bash <(curl https://codecov.io/bash) -y ../codecov.yml -f coverage.json -F javascript
