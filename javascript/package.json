@@ -7,9 +7,10 @@
     "author": "Billcountry",
     "license": "MIT",
     "devDependencies": {
-        "mocha": "^7.1.2"
+        "mocha": "^7.1.2",
+        "nyc": "^15.0.1"
     },
     "scripts": {
-        "test": "mocha"
+        "test": "nyc mocha"
     }
 }
