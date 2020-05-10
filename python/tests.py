@@ -48,25 +48,28 @@ class TestCase(unittest.TestCase):
     def test_datetime_encode(self):
         dt = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400)
         data = dict(registered=dt, username="bear")
-        expected_eson = '{"EsonDatetime~registered": {"timestamp": 1588822240000400}, "username": "bear"}'
+        expected_ts = int(dt.timestamp() * 1000000)
+        expected_eson = '{"EsonDatetime~registered": {"timestamp": %d}, "username": "bear"}' % expected_ts
         self.assertEqual(eson.encode(data), expected_eson)
         # Timezone aware datetime objects
         tz = timezone(timedelta(hours=3), "EAT")
         dtz = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400, tzinfo=tz)
+        expected_ts = int(dtz.timestamp()*1000000)
         expected_eson = '{"EsonDatetime~eatime": ' \
-                        '{"timestamp": 1588822240000400, "timezone": {"offset": 10800, "name": "EAT"}}, ' \
-                        '"username": "bear"}'
+                        '{"timestamp": %d, "timezone": {"offset": 10800, "name": "EAT"}}, ' \
+                        '"username": "bear"}' % expected_ts
         data = dict(eatime=dtz, username="bear")
         self.assertEqual(eson.encode(data), expected_eson)
 
     def test_datetime_decode(self):
-        dt = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400)
+        dt = datetime.fromtimestamp(1588822240.0004)
         eson_data = '{"EsonDatetime~date_of_birth": {"timestamp": 1588822240000400}, "horoscope": "taurus"}'
         self.assertEqual(dict(date_of_birth=dt, horoscope="taurus"), eson.decode(eson_data))
         # Decode a timezone aware date
         eson_data = '{"EsonDatetime~eatime": {"timestamp": 1588822240000400, "timezone": {"offset": 10800, "name": "Africa/Nairobi"}}}'
         tz = timezone(timedelta(hours=3), "Africa/Nairobi")
-        dtz = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400, tzinfo=tz)
+        dtz = datetime.fromtimestamp(1588822240.0004)
+        dtz = dtz.replace(tzinfo=tz)
         data = eson.decode(eson_data)
         self.assertEqual(dtz, data.get("eatime"))
     
@@ -74,13 +77,14 @@ class TestCase(unittest.TestCase):
         d = date(year=2020, month=4, day=20)
         dt = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400)
         data = dict(name="Jane Doe", log=["Some string", 0, dt, False, d, None])
-        expected_eson = '{"name": "Jane Doe", "log": ["Some string", 0, {"EsonDatetime~": {"timestamp": 1588822240000400}}, false, {"EsonDate~": {"year": 2020, "month": 4, "day": 20}}, null]}'
+        expected_ts = int(dt.timestamp() * 1000000)
+        expected_eson = '{"name": "Jane Doe", "log": ["Some string", 0, {"EsonDatetime~": {"timestamp": %d}}, false, {"EsonDate~": {"year": 2020, "month": 4, "day": 20}}, null]}' % expected_ts
         self.assertEqual(expected_eson, eson.encode(data))
 
     def test_combined_list_data_decode(self):
         eson_string = '{"name": "Jane Doe", "log": ["Some string", 0, {"EsonDatetime~": {"timestamp": 1588822240000400}}, false, {"EsonDate~": {"year": 2020, "month": 4, "day": 20}}, null]}'
         d = date(year=2020, month=4, day=20)
-        dt = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400)
+        dt = datetime.fromtimestamp(1588822240.0004)
         expected_data = dict(name="Jane Doe", log=["Some string", 0, dt, False, d, None])
         self.assertEqual(expected_data, eson.decode(eson_string))
 
