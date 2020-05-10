@@ -1,6 +1,6 @@
-name: Test Python ESON
+name: Python Tests
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   deploy:
@@ -21,3 +21,9 @@ jobs:
       run: |
         cd python
         coverage run tests.py        
+
+    - name: Report coverage
+      run: |
+        cd python
+        coverage xml
+        bash <(curl https://codecov.io/bash) -y ../codecov.yml -f coverage.xml -F python
