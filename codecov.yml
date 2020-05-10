@@ -1,0 +1,29 @@
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+      python:
+        target: auto
+        flags:
+          - python
+      javascript:
+        target: auto
+        flags:
+          - javascript
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false  
+  require_base: yes
+  require_head: yes       
+  branches: null
+flags:
+  python:
+    paths:
+      - python
+    carryforward: true
+  javascript:
+    paths:
+      - javascript
+    carryforward: true
