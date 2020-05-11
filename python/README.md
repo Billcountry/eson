@@ -1,6 +1,7 @@
 # Extended JSON(ESON)
 
 ![Python Tests](https://github.com/Billcountry/eson/workflows/Python%20Tests/badge.svg?branch=master)
+
 JSON is great for sharing data in a human readable format but sometimes it lacks in object types support.
 ESON does not re-invent the wheel, it just provides a base for you to implement extended JSON objects allowing you to
 share data between services, apps and languages as objects.
@@ -17,7 +18,7 @@ Run `pip install eson`
 
 ### Usage
 Below is a summary of various operations using eson. 
-<a href="https://repl.it/@Billcountry/eson-python" target="_blank">Click here</a> to open a live test environment.
+<a href="https://repl.it/@Billcountry/eson-python" target="_blank">Click here for a live IDE.</a>
 
 #### Encoding:
 ```python

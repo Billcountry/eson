@@ -24,7 +24,7 @@ Yarners `yarn add eson-js`
 
 ### Usage
 Below is a summary of various operations using eson. 
-<a href="https://repl.it/@Billcountry/eson-javascript" target="_blank">Click here</a> to open a live test environment.
+<a href="https://repl.it/@Billcountry/eson-javascript" target="_blank">Click here for a live IDE.</a>
 
 #### Encoding:
 ```js
