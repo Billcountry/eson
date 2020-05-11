@@ -28,5 +28,5 @@ jobs:
     - name: Report coverage
       run: |
         cd javascript
-        nyc merge .nyc_output/ coverage.json
+        npx nyc merge .nyc_output/ coverage.json
         bash <(curl https://codecov.io/bash) -y ../codecov.yml -f coverage.json -F javascript
