@@ -1,0 +1,28 @@
+name: Python Tests
+
+on: [pull_request]
+
+jobs:
+  tests-py:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install coverage
+    - name: Run Tests
+      run: |
+        cd python
+        coverage run tests.py        
+
+    - name: Report coverage
+      run: |
+        cd python
+        coverage xml
+        bash <(curl https://codecov.io/bash) -y ../codecov.yml -f coverage.xml -F python

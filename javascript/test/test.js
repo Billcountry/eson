@@ -24,13 +24,16 @@ describe("Test Normal JSON Operations", () => {
     })
 
     it("Should return pretty JSON equal to built in JSON", () => {
+        const registered = new Date(2020, 4, 7, 6, 30, 40, 400)
         const data = {
             name: "Jane Doe",
-            registered: new Date(2020, 4, 7, 6, 30, 40, 400),
+            registered,
         }
         eson_data = {
             name: "Jane Doe",
-            "EsonDatetime~registered": { timestamp: 1588822240400000 },
+            "EsonDatetime~registered": {
+                timestamp: registered.getTime() * 1000,
+            },
         }
         assert.equal(
             eson.encode(data, true),
@@ -57,24 +60,24 @@ describe("Test Datetime Operations", () => {
         const registered = new Date(2020, 4, 7, 6, 30, 40, 400)
         assert.equal(
             eson.encode(registered),
-            '{"EsonDatetime~":{"timestamp":1588822240400000}}'
+            `{"EsonDatetime~":{"timestamp":${registered.getTime() * 1000}}}`
         )
         const data = {
             registered,
             username: "bear",
         }
-        const expected_eson =
-            '{"EsonDatetime~registered":{"timestamp":1588822240400000},"username":"bear"}'
+        const expected_eson = `{"EsonDatetime~registered":{"timestamp":${registered.getTime() *
+            1000}},"username":"bear"}`
         assert.equal(eson.encode(data), expected_eson)
     })
 
     it("Should decode EsonDatetime object to a javascript date object", () => {
-        const eson_registered =
-            '{"EsonDatetime~":{"timestamp":1588822240400000}}'
         const registered = new Date(2020, 4, 7, 6, 30, 40, 400)
+        const eson_registered = `{"EsonDatetime~":{"timestamp":${registered.getTime() *
+            1000}}}`
         assert.deepEqual(eson.decode(eson_registered), registered)
-        const eson_data =
-            '{"EsonDatetime~registered": {"timestamp": 1588822240400000}, "username": "bear"}'
+        const eson_data = `{"EsonDatetime~registered": {"timestamp": ${registered.getTime() *
+            1000}}, "username": "bear"}`
         const expected_object = {
             registered,
             username: "bear",
@@ -90,15 +93,15 @@ describe("Test Combined List Data", () => {
             name: "Jane Doe",
             log: ["Some string", 0, dt, false, null],
         }
-        const expected_eson =
-            '{"name":"Jane Doe","log":["Some string",0,{"EsonDatetime~":{"timestamp":1588822240400000}},false,null]}'
+        const expected_eson = `{"name":"Jane Doe","log":["Some string",0,{"EsonDatetime~":{"timestamp":${dt.getTime() *
+            1000}}},false,null]}`
         assert.equal(eson.encode(data), expected_eson)
     })
 
     it("Shoud decode data in lists and dictionaries correctly", () => {
-        const eson_string =
-            '{"name": "Jane Doe", "log": ["Some string", 0, {"EsonDatetime~": {"timestamp": 1588822240400000}}, false, {"EsonDate~": {"year": 2020, "month": 4, "day": 20}}, null]}'
         const datetime = new Date(2020, 4, 7, 6, 30, 40, 400)
+        const eson_string = `{"name": "Jane Doe", "log": ["Some string", 0, {"EsonDatetime~": {"timestamp": ${datetime.getTime() *
+            1000}}}, false, {"EsonDate~": {"year": 2020, "month": 4, "day": 20}}, null]}`
         const date = new Date(2020, 3, 20)
         const expected_object = {
             name: "Jane Doe",
