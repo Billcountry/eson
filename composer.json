@@ -1,0 +1,26 @@
+{
+    "name": "eson/eson",
+    "description": "Extendable JSON to support different formats of data across languages. By default supports date and datetime objects",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Billcountry",
+            "email": "me@billcountry.tech",
+            "homepage": "htpps://billcountry.tech",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "forum": "https://github.com/Billcountry/eson/issues",
+        "issues": "https://github.com/Billcountry/eson/issues",
+        "source": "https://github.com/Billcountry/eson"
+    },
+    "autoload": {
+        "classmap": [
+            "php/src"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    }
+}
