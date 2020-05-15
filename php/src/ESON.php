@@ -1,10 +1,4 @@
 <?php
-
-if(!isset($_ESON_CONFIG)){
-    $_ESON_CONFIG = array();
-}
-
-
 /**
  * Class ESON
  * @package ESON
@@ -106,4 +100,38 @@ class ESON
     private static function config(){
         return $GLOBALS['_ESON_CONFIG'];
     }
+}
+
+if(!isset($_ESON_CONFIG)){
+    $_ESON_CONFIG = array();
+    // Add default extensions
+    ESON::add_extension(array(
+        "name" => "DateTime",
+        "should_encode" => function($value){
+            return $value instanceof DateTime;
+        },
+        "encode" => function($value){
+            return array("timestamp" => $value->getTimestamp() * 1000000);
+        },
+        "decode" => function($value){
+            $ts = $value["timestamp"];
+            $dt = new DateTime();
+            $dt->setTimestamp(intval($ts/1000000));
+            return $dt;
+        }
+    ));
+    ESON::add_extension(array(
+        "name" => "Date",
+        // Should only decode not encode
+        "should_encode" => function($value){
+            return false;
+        },
+        "encode" => null,
+        "decode" => function($value){
+            $day = $value["day"];
+            $month = $value["month"];
+            $year = $value["year"];
+            return new DateTime("$day-$month-$year");
+        }
+    ));
 }
