@@ -19,7 +19,7 @@ class ESON
         return json_encode($eson_data);
     }
 
-    private static encode_types($data){
+    private static function encode_types($data){
         if(is_array($data) && self::is_assoc($data)){
             $eson_array = array();
             foreach ($data as $key => $value) {
@@ -28,11 +28,11 @@ class ESON
         }
     }
 
-    private static encode_type($value){
+    private static function encode_type($value){
         
     }
 
-    public static function decode(string $eson_data){
+    public static function decode($eson_data){
 
     }
 
@@ -55,9 +55,10 @@ class ESON
         $GLOBALS['_ESON_CONFIG'] = $config;
     }
 
-    private static function is_assoc($array)[
+    private static function is_assoc($array)
+    {
         return array_keys($array) !== range(0, count($array) - 1);
-    ]
+    }
 
     private static function config(){
         global $_ESON_CONFIG;
