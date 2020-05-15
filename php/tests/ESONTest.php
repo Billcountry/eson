@@ -24,4 +24,14 @@ final class ESONTest extends TestCase
         $this->assertNull(ESON::decode('null'));
     }
 
+    public function test_date_decode()
+    {
+        $eson_date = '{"EsonDate~": {"year": 2020, "month": 4, "day": 20}}';
+        $expected_date = new DateTime("20-04-2020");
+        $this->assertEquals($expected_date, ESON::decode($eson_date));
+
+        $eson_object = '{"EsonDate~dob": {"year": 2020, "month": 4, "day": 20}, "name": "Corona"}';
+        $expected_object = array("dob" => new DateTime("20-04-2020"), "name" => "Corona");
+        $this->assertEquals($expected_object, ESON::decode($eson_object));
+    }
 }
