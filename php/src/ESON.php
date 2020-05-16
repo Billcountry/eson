@@ -8,9 +8,9 @@ class ESON
     public static function encode($data, $pretty=FALSE){
         $eson_data = self::encode_types($data);
         if($pretty){
-            return json_encode($data, JSON_PRETTY_PRINT);
+            return json_encode($eson_data, JSON_PRETTY_PRINT);
         }
-        return json_encode($data);
+        return json_encode($eson_data);
     }
 
     private static function encode_types($data){
@@ -21,7 +21,7 @@ class ESON
                 $encoded_key = $result["encoded_key"];
                 $encoded_value = $result["encoded_value"];
                 if(is_array($encoded_value)){
-                    $encoded_value = self::encode_types($data);
+                    $encoded_value = self::encode_types($encoded_value);
                 }
                 $eson_array[$encoded_key] = $encoded_value;
             }
@@ -34,7 +34,7 @@ class ESON
                 $encoded_key = $result["encoded_key"];
                 $encoded_value = $result["encoded_value"];
                 if(is_array($encoded_value)){
-                    $encoded_value = self::encode_types($data);
+                    $encoded_value = self::encode_types($encoded_value);
                 }
                 if($encoded_key){
                     array_push($eson_array, array($encoded_key => $encoded_value));
@@ -48,7 +48,7 @@ class ESON
         $encoded_key = $result["encoded_key"];
         $encoded_value = $result["encoded_value"];
         if(is_array($encoded_value)){
-            $encoded_value = self::encode_types($data);
+            $encoded_value = self::encode_types($encoded_value);
         }
         if($encoded_key){
             return array($encoded_key => $encoded_value);
