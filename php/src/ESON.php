@@ -109,7 +109,7 @@ class ESON
             $GLOBALS['_ESON_CONFIG'] = array();
             // Add default extensions
             ESON::add_extension(array(
-                "name" => "DateTime",
+                "name" => "EsonDatetime",
                 "should_encode" => function ($value) {
                     return $value instanceof DateTime;
                 },
@@ -124,7 +124,7 @@ class ESON
                 }
             ));
             ESON::add_extension(array(
-                "name" => "Date",
+                "name" => "EsonDate",
                 // Should only decode not encode
                 "should_encode" => function ($value) {
                     return false;
