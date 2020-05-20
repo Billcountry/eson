@@ -23,9 +23,6 @@ class ESON
                 $result = self::encode_type($key, $value);
                 $encoded_key = $result["encoded_key"];
                 $encoded_value = $result["encoded_value"];
-                if (is_array($encoded_value)) {
-                    $encoded_value = self::encode_types($encoded_value);
-                }
                 $eson_array[$encoded_key] = $encoded_value;
             }
             return $eson_array;
@@ -36,9 +33,6 @@ class ESON
                 $result = self::encode_type("", $value);
                 $encoded_key = $result["encoded_key"];
                 $encoded_value = $result["encoded_value"];
-                if (is_array($encoded_value)) {
-                    $encoded_value = self::encode_types($encoded_value);
-                }
                 if ($encoded_key) {
                     array_push($eson_array, array($encoded_key => $encoded_value));
                 } else {
@@ -50,9 +44,6 @@ class ESON
         $result = self::encode_type("", $data);
         $encoded_key = $result["encoded_key"];
         $encoded_value = $result["encoded_value"];
-        if (is_array($encoded_value)) {
-            $encoded_value = self::encode_types($encoded_value);
-        }
         if ($encoded_key) {
             return array($encoded_key => $encoded_value);
         }
