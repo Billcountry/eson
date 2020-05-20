@@ -66,7 +66,7 @@ final class ESONTest extends TestCase
 
     public function test_combined_list_data_decode()
     {
-        $datetime = new DateTime('2020-05-07T06:30:40.0004Z');
+        $datetime = new DateTime('2020-05-07T06:30:40.0000Z');
         $expected_ts = $datetime->getTimestamp() * 1000000;
         $eson_string = sprintf(
             '{"name": "Jane Doe", "log": ["Some string", 0, {"EsonDatetime~": {"timestamp": %u}}, false, {"EsonDate~": {"year": 2020, "month": 4, "day": 20}}, null]}',
