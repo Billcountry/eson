@@ -20,9 +20,7 @@ class ESON
         if (is_array($data) && self::is_assoc($data)) {
             $eson_array = array();
             foreach ($data as $key => $value) {
-                $result = self::encode_type($key, $value);
-                $encoded_key = $result["encoded_key"];
-                $encoded_value = $result["encoded_value"];
+                extract(self::encode_type($key, $value));
                 $eson_array[$encoded_key] = $encoded_value;
             }
             return $eson_array;
@@ -30,9 +28,7 @@ class ESON
         if (is_array($data)) {
             $eson_array = array();
             foreach ($data as $value) {
-                $result = self::encode_type("", $value);
-                $encoded_key = $result["encoded_key"];
-                $encoded_value = $result["encoded_value"];
+                extract(self::encode_type("", $value));
                 if ($encoded_key) {
                     array_push($eson_array, array($encoded_key => $encoded_value));
                 } else {
@@ -41,9 +37,7 @@ class ESON
             }
             return $eson_array;
         }
-        $result = self::encode_type("", $data);
-        $encoded_key = $result["encoded_key"];
-        $encoded_value = $result["encoded_value"];
+        extract(self::encode_type("", $data));
         if ($encoded_key) {
             return array($encoded_key => $encoded_value);
         }
