@@ -7,6 +7,10 @@ coverage:
         target: auto
         flags:
           - python
+      php:
+        target: auto
+        flags:
+          - php
       javascript:
         target: auto
         flags:
@@ -22,6 +26,10 @@ flags:
   python:
     paths:
       - python
+    carryforward: true
+  php:
+    paths:
+      - php
     carryforward: true
   javascript:
     paths:
