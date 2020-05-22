@@ -2,6 +2,7 @@
 [![codecov](https://codecov.io/gh/Billcountry/eson/branch/master/graph/badge.svg)](https://codecov.io/gh/Billcountry/eson)
 [![Python Tests](https://github.com/Billcountry/eson/workflows/Python%20Tests/badge.svg?branch=master)](/python)
 [![Javascript Tests](https://github.com/Billcountry/eson/workflows/Javascript%20Tests/badge.svg?branch=master)](/javascript)
+[![PHP Tests](https://github.com/Billcountry/eson/workflows/PHP%20Tests/badge.svg?branch=master)](/php)
 
 JSON is great for sharing data in a human readable format but sometimes it lacks in object types support.
 ESON does not re-invent the wheel, it just provides a base for you to implement extended JSON objects allowing you to
