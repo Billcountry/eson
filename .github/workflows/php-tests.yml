@@ -9,17 +9,14 @@ on:
 jobs:
   tests-js:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: [ '5.4', '7.4' ]
 
-    name: php v${{ matrix.version }}
+    name: php tests v7.4
     steps:
     - uses: actions/checkout@v2
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.version }}
+        php-version: '7.4'
         tools: composer
     - name: Install dependencies
       run: composer install
