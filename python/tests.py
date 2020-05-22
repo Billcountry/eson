@@ -51,27 +51,11 @@ class TestCase(unittest.TestCase):
         expected_ts = int(dt.timestamp() * 1000000)
         expected_eson = '{"EsonDatetime~registered": {"timestamp": %d}, "username": "bear"}' % expected_ts
         self.assertEqual(eson.encode(data), expected_eson)
-        # Timezone aware datetime objects
-        tz = timezone(timedelta(hours=3), "EAT")
-        dtz = datetime(year=2020, month=5, day=7, hour=6, minute=30, second=40, microsecond=400, tzinfo=tz)
-        expected_ts = int(dtz.timestamp()*1000000)
-        expected_eson = '{"EsonDatetime~eatime": ' \
-                        '{"timestamp": %d, "timezone": {"offset": 10800, "name": "EAT"}}, ' \
-                        '"username": "bear"}' % expected_ts
-        data = dict(eatime=dtz, username="bear")
-        self.assertEqual(eson.encode(data), expected_eson)
 
     def test_datetime_decode(self):
         dt = datetime.fromtimestamp(1588822240.0004)
         eson_data = '{"EsonDatetime~date_of_birth": {"timestamp": 1588822240000400}, "horoscope": "taurus"}'
         self.assertEqual(dict(date_of_birth=dt, horoscope="taurus"), eson.decode(eson_data))
-        # Decode a timezone aware date
-        eson_data = '{"EsonDatetime~eatime": {"timestamp": 1588822240000400, "timezone": {"offset": 10800, "name": "Africa/Nairobi"}}}'
-        tz = timezone(timedelta(hours=3), "Africa/Nairobi")
-        dtz = datetime.fromtimestamp(1588822240.0004)
-        dtz = dtz.replace(tzinfo=tz)
-        data = eson.decode(eson_data)
-        self.assertEqual(dtz, data.get("eatime"))
     
     def test_combined_list_data_encode(self):
         d = date(year=2020, month=4, day=20)

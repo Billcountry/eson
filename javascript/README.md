@@ -14,8 +14,6 @@ This is the javascript version of ESON. See other languages [here](https://githu
 ## Getting Started
 **Note**: Javascript doesn't support date and datetime as separate entities. It can **decode date and datetime** objects but it **encodes datetime** even for what was originally an ESON date object.
 
-**Note**: EsonDatetime objects in Javascript are not timezone aware.
-
 ESON is safe to use in browser, webworkers and in node-js.
 
 ### Install

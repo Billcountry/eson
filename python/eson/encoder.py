@@ -15,8 +15,6 @@ def __encode_types(data):
         _data = dict()
         for key, value in data.items():
             encoded_key, encoded_value = __encode_type(key, value)
-            if isinstance(encoded_value, (dict, list)):
-                encoded_value = __encode_types(encoded_value)
             _data[encoded_key] = encoded_value
         return _data
 
@@ -24,8 +22,6 @@ def __encode_types(data):
         _data = list()
         for value in data:
             encoded_key, encoded_value = __encode_type("", value)
-            if isinstance(encoded_value, (dict, list)):
-                encoded_value = __encode_types(encoded_value)
             if encoded_key:
                 _data.append({encoded_key: encoded_value})
             else:
@@ -39,10 +35,14 @@ def __encode_types(data):
 
 def __encode_type(key, value):
     config = getattr(builtins, "__eson_config__", dict())
+    encoded_key = key
+    encoded_value = value
     for name, extension in config.items():
         if extension.should_encode(value):
             encoded_key = '{name}~{key}'.format(name=name, key=key)
             encoded_value = extension.encode(value)
-            return encoded_key, encoded_value
-    return key, value
+            break
+    if isinstance(encoded_value, (dict, list)):
+        encoded_value = __encode_types(encoded_value)
+    return encoded_key, encoded_value
 

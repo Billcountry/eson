@@ -1,0 +1,27 @@
+name: PHP Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  tests-js:
+    runs-on: ubuntu-latest
+
+    name: php tests v7.4
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        tools: composer
+    - name: Install dependencies
+      run: composer install
+    - name: Run Tests
+      run: ./vendor/bin/phpunit  --coverage-clover=coverage.xml php/tests/ESONTest.php
+
+    - name: Report coverage
+      run: bash <(curl https://codecov.io/bash) -y codecov.yml -f coverage.xml -F php
